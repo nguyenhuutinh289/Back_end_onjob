@@ -1,0 +1,13 @@
+﻿vào file appsetttings.json để cài đặt lại Data-Source là tên máy tính của máy . 
+Initial Catalog=LibCodeFirst kế bên Data-Source sẽ là tên db trong csdl
+
+-------------------- 	không cần tạo database trước
+
+từ vs2017 chọn Tools --> nuget package manager ---> package manager console
+
+gõ vào console : add-migration <tên tuỳ ý>  ví dụ : add-migration initDB
+chờ nó sinh ra cái class giống với tên đã đặt 
+
+sau đó gõ tiếp vào console update-database
+
+kiểm tra csdl soa đó chạy file script trng thư mục database để sinh data mẫu.
