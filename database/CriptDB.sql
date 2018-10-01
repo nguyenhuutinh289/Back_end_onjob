@@ -62,6 +62,39 @@ INSERT [dbo].[CATEGORIES] ( [NAME], [DESCRIPTION]) VALUES (N'Ngụ Ngôn', NULL)
 INSERT [dbo].[CATEGORIES] ( [NAME], [DESCRIPTION]) VALUES (N'Phiêu Lưu', NULL)
 INSERT [dbo].[CATEGORIES] ( [NAME], [DESCRIPTION]) VALUES (N'Dân Gian', NULL)
 
+ --librarian
+ INSERT INTO [Librarian] ([Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
+      VALUES ( N'nguyenvanteo@gmail.com', N'To', 1, N'Nguyễn Trần',1,'0909999888',NULL)
+INSERT INTO [Librarian] ( [Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
+      VALUES( N'nguyenvanty@gmail.com', N'Tý', 1, N'Nguyễn Văn',0,'0909999888',NULL)
+INSERT INTO [Librarian] ( [Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
+      VALUES( N'nguyenvanthuong@gmail.com', N'Thương', 0, N'Phan Thị',1,'0909999888',NULL)
+INSERT INTO [Librarian] ( [Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
+      VALUES( N'nguyenvanthnh@gmail.com', N'Thanh', 0, N'Nguyễn Thị',1,'0909999888',NULL)
+INSERT INTO [Librarian] ( [Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
+      VALUES( N'nguyenvanha@gmail.com', N'Hà', 1, N'Nguyễn Thanh',1,'0909999888',NULL);
+      
+--- author
+insert into Author values(N'Steven',N'Covey')
+insert into Author values(N'Lão',N'Mạc')
+insert into Author values(N'Goleman',N'Daniel')
+insert into Author values(N'J. Lieberman',N'David')
+insert into Author values(N'Richard',N'Precht')
+insert into Author values(N'Hill',N'Napoleon')
+insert into Author values(N'Alon',N'Gratch')
+insert into Author values(N'Bennie',N'Boughn')
+insert into Author values(N'Jon',N'Condrill')
+insert into Author values(N'Puzo',N'Mrio')
+insert into Author values(N'',N'Unknow')
+
+---- Shelve
+insert Shelve values(N'Lầu 1')
+insert Shelve values(N'Lầu 2')
+insert Shelve values(N'Lầu 3')
+insert Shelve values(N'Lầu 4')
+insert Shelve values(N'Lầu 5')
+
+
 
 --category-title
 insert into CategoryTitles values (4,1)
@@ -102,32 +135,6 @@ insert into CategoryTitles values (13,4)
 insert into CategoryTitles values (11,5)
 insert into CategoryTitles values (10,4)
 insert into CategoryTitles values (13,1)
-
-
- --librarian
- INSERT INTO [Librarian] ([Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
-      VALUES ( N'nguyenvanteo@gmail.com', N'To', 1, N'Nguyễn Trần',1,'0909999888',NULL)
-INSERT INTO [Librarian] ( [Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
-      VALUES( N'nguyenvanty@gmail.com', N'Tý', 1, N'Nguyễn Văn',0,'0909999888',NULL)
-INSERT INTO [Librarian] ( [Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
-      VALUES( N'nguyenvanthuong@gmail.com', N'Thương', 0, N'Phan Thị',1,'0909999888',NULL)
-INSERT INTO [Librarian] ( [Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
-      VALUES( N'nguyenvanthnh@gmail.com', N'Thanh', 0, N'Nguyễn Thị',1,'0909999888',NULL)
-INSERT INTO [Librarian] ( [Email], [FirstName], [Gender], [LastName],[Status],Phone,[Image])
-      VALUES( N'nguyenvanha@gmail.com', N'Hà', 1, N'Nguyễn Thanh',1,'0909999888',NULL);
-      
---- author
-insert into Author values(N'Steven',N'Covey')
-insert into Author values(N'Lão',N'Mạc')
-insert into Author values(N'Goleman',N'Daniel')
-insert into Author values(N'J. Lieberman',N'David')
-insert into Author values(N'Richard',N'Precht')
-insert into Author values(N'Hill',N'Napoleon')
-insert into Author values(N'Alon',N'Gratch')
-insert into Author values(N'Bennie',N'Boughn')
-insert into Author values(N'Jon',N'Condrill')
-insert into Author values(N'Puzo',N'Mrio')
-insert into Author values(N'',N'Unknow')
 
 
 --author--title

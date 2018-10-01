@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Code.JsonResult;
 using Code.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -22,6 +23,16 @@ namespace Code.Controllers
         public ActionResult<List<Publisher>> Get()
         {
             return _context.Publishers.ToList();
+        }
+        [HttpGet("shortpublisher")]
+        public ActionResult<List<ShortPublisherView>> GetShortPublisher()
+        {
+            return _context.Publishers
+                .Select(    x=> new ShortPublisherView() {
+                ID = x.ID,
+                Name = x.Name
+            } ).ToList();
+
         }
 
         // GET: api/Publisher/5
@@ -70,8 +81,13 @@ namespace Code.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            // ở đây mình k cho delete các cậu có thể làm delete nếu thích
-            return new NotFoundObjectResult(new { messege = "you don't have permission" });
+            var pub = _context.Publishers.Find(id);
+
+            if (pub == null)
+                return NotFound();
+            _context.Publishers.Remove(pub);
+            _context.SaveChanges();
+            return new OkObjectResult(new { Status = "Xong" });
         }
 
     }

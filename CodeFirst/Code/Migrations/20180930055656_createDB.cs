@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Code.Migrations
 {
-    public partial class initDB : Migration
+    public partial class createDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -85,6 +85,40 @@ namespace Code.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Shelve",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shelve", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Receipts",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IssueDate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    BorrowerID = table.Column<int>(nullable: false),
+                    LibrarianID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receipts", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Receipts_Librarian_LibrarianID",
+                        column: x => x.LibrarianID,
+                        principalTable: "Librarian",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Titles",
                 columns: table => new
                 {
@@ -144,6 +178,36 @@ namespace Code.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BarCode = table.Column<string>(type: "char(9)", nullable: true),
+                    Type = table.Column<bool>(nullable: false),
+                    Page = table.Column<int>(nullable: false),
+                    Status = table.Column<bool>(nullable: false),
+                    ShelveID = table.Column<int>(nullable: false),
+                    TitleID = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Books_Shelve_ShelveID",
+                        column: x => x.ShelveID,
+                        principalTable: "Shelve",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Books_Titles_TitleID",
+                        column: x => x.TitleID,
+                        principalTable: "Titles",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CategoryTitles",
                 columns: table => new
                 {
@@ -167,9 +231,46 @@ namespace Code.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ReceiptDetails",
+                columns: table => new
+                {
+                    ReceiptID = table.Column<int>(nullable: false),
+                    BookID = table.Column<int>(nullable: false),
+                    ExpectReturn = table.Column<DateTime>(type: "datetime", nullable: false),
+                    AcctualReturn = table.Column<DateTime>(type: "datetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReceiptDetails", x => new { x.ReceiptID, x.BookID });
+                    table.UniqueConstraint("AK_ReceiptDetails_BookID_ReceiptID", x => new { x.BookID, x.ReceiptID });
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetails_Books_BookID",
+                        column: x => x.BookID,
+                        principalTable: "Books",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReceiptDetails_Receipts_ReceiptID",
+                        column: x => x.ReceiptID,
+                        principalTable: "Receipts",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AuthorTitle_TitleID",
                 table: "AuthorTitle",
+                column: "TitleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_ShelveID",
+                table: "Books",
+                column: "ShelveID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Books_TitleID",
+                table: "Books",
                 column: "TitleID");
 
             migrationBuilder.CreateIndex(
@@ -196,6 +297,17 @@ namespace Code.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Receipts_LibrarianID",
+                table: "Receipts",
+                column: "LibrarianID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shelve_Name",
+                table: "Shelve",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Titles_LanguageID",
                 table: "Titles",
                 column: "LanguageID");
@@ -215,7 +327,7 @@ namespace Code.Migrations
                 name: "CategoryTitles");
 
             migrationBuilder.DropTable(
-                name: "Librarian");
+                name: "ReceiptDetails");
 
             migrationBuilder.DropTable(
                 name: "Author");
@@ -224,7 +336,19 @@ namespace Code.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "Books");
+
+            migrationBuilder.DropTable(
+                name: "Receipts");
+
+            migrationBuilder.DropTable(
+                name: "Shelve");
+
+            migrationBuilder.DropTable(
                 name: "Titles");
+
+            migrationBuilder.DropTable(
+                name: "Librarian");
 
             migrationBuilder.DropTable(
                 name: "Languages");

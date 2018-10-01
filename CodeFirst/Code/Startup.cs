@@ -43,7 +43,7 @@ namespace Code
                     {
                        // builder.WithOrigins("*").AllowAnyMethod();
                       //  builder.WithOrigins("*").AllowAnyOrigin();
-                        builder.WithOrigins("http://localhost:4200").AllowAnyHeader()
+                        builder.WithOrigins("*").AllowAnyHeader()
                         .AllowAnyMethod();
                     });
             });

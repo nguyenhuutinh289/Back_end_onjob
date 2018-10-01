@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace Code.Models
 {
-    [Table("Languages")]
-    public class Language
+    [Table("Shelve")]
+    public class Shelve
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-
         [Required]
-        [MaxLength(50)]
         public string Name { get; set; }
-
-      //  public virtual ICollection<Title> Titles { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Code.Migrations
 {
     [DbContext(typeof(DemoContext))]
-    [Migration("20180915091500_initDB")]
-    partial class initDB
+    [Migration("20180930055656_createDB")]
+    partial class createDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,34 @@ namespace Code.Migrations
                     b.HasIndex("TitleID");
 
                     b.ToTable("AuthorTitle");
+                });
+
+            modelBuilder.Entity("Code.Models.Book", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BarCode")
+                        .HasColumnType("char(9)");
+
+                    b.Property<int>("Page");
+
+                    b.Property<int>("ShelveID");
+
+                    b.Property<bool>("Status");
+
+                    b.Property<int>("TitleID");
+
+                    b.Property<bool>("Type");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ShelveID");
+
+                    b.HasIndex("TitleID");
+
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("Code.Models.Category", b =>
@@ -159,6 +187,62 @@ namespace Code.Migrations
                     b.ToTable("Publisher");
                 });
 
+            modelBuilder.Entity("Code.Models.Receipt", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BorrowerID");
+
+                    b.Property<DateTime>("IssueDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("LibrarianID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("LibrarianID");
+
+                    b.ToTable("Receipts");
+                });
+
+            modelBuilder.Entity("Code.Models.ReceiptDetail", b =>
+                {
+                    b.Property<int>("ReceiptID");
+
+                    b.Property<int>("BookID");
+
+                    b.Property<DateTime>("AcctualReturn")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("ExpectReturn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("ReceiptID", "BookID");
+
+                    b.HasAlternateKey("BookID", "ReceiptID");
+
+                    b.ToTable("ReceiptDetails");
+                });
+
+            modelBuilder.Entity("Code.Models.Shelve", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Shelve");
+                });
+
             modelBuilder.Entity("Code.Models.Title", b =>
                 {
                     b.Property<int>("ID")
@@ -213,6 +297,19 @@ namespace Code.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Code.Models.Book", b =>
+                {
+                    b.HasOne("Code.Models.Shelve", "Shelve")
+                        .WithMany()
+                        .HasForeignKey("ShelveID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Code.Models.Title", "Title")
+                        .WithMany()
+                        .HasForeignKey("TitleID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Code.Models.CategoryTitle", b =>
                 {
                     b.HasOne("Code.Models.Category", "Category")
@@ -226,15 +323,36 @@ namespace Code.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Code.Models.Receipt", b =>
+                {
+                    b.HasOne("Code.Models.Librarian", "Librarian")
+                        .WithMany("Receipts")
+                        .HasForeignKey("LibrarianID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Code.Models.ReceiptDetail", b =>
+                {
+                    b.HasOne("Code.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Code.Models.Receipt", "Receipt")
+                        .WithMany()
+                        .HasForeignKey("ReceiptID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Code.Models.Title", b =>
                 {
                     b.HasOne("Code.Models.Language", "Language")
-                        .WithMany("Titles")
+                        .WithMany()
                         .HasForeignKey("LanguageID")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Code.Models.Publisher", "Publisher")
-                        .WithMany("Titles")
+                        .WithMany()
                         .HasForeignKey("PublisherID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

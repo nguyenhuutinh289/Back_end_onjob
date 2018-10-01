@@ -1,24 +1,24 @@
 ﻿using Code.ModelsView;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Code.JsonResult
 {
-    public class TitleViewAll
+    public class ViewTitleFullField
     {
-
         public TitleView Title { get; set; }
 
-        public List<int> Categories { get; set; }
+        public List<string> Categories { get; set; }
 
-        public List<int> Authors { get; set; }
+        public List<string> Authors { get; set; }
 
-        public TitleViewAll(TitleView view, List<int> categories, List<int> authors)
+        public ViewTitleFullField(TitleView view, List<string> categories, List<string> authors)
         {
             this.Title = view;
             this.Categories = categories;
             this.Authors = authors;
         }
-
     }
 }

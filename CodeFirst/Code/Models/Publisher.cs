@@ -25,6 +25,6 @@ namespace Code.Models
 
         public string Address { get; set; }
 
-        public virtual ICollection<Title> Titles { get; set; }
+      //  public virtual ICollection<Title> Titles { get; set; }
     }
 }

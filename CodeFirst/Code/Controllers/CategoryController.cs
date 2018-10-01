@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Code.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace Code.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("All")]
     public class CategoryController : ConnectionContext
     {
         public CategoryController(DemoContext context) : base(context)

@@ -21,5 +21,11 @@ namespace Code.Models
 
         [ForeignKey("TitleID")]
         public virtual Title Title { get; set; }
+
+        public AuthorTitle(int authorID, int titleID)
+        {
+            this.AuthorID = authorID;
+            this.TitleID = titleID;
+        }
     }
 }

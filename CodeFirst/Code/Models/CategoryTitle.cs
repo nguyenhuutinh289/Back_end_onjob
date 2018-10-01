@@ -24,5 +24,11 @@ namespace Code.Models
 
         [ForeignKey("CategoryID")]
         public virtual Category Category { get; set; }
+        public CategoryTitle( int categoryID, int titleID)
+        {
+            this.TitleID = titleID;
+            this.CategoryID = categoryID;
+        }
+       
     }
 }

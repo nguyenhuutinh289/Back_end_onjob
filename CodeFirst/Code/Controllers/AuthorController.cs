@@ -1,4 +1,5 @@
-﻿using Code.Models;
+﻿using Code.JsonResult;
+using Code.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -20,6 +21,18 @@ namespace Code.Controllers
         public ActionResult<List<Author>> Get()
         {
             return _context.Authors.ToList();
+        }
+        [HttpGet("fullname")]
+        public ActionResult<List<AuthorFullNameView>> GetFullName()
+        {
+            var query = (from author in _context.Authors
+                         select new AuthorFullNameView()
+                         {
+                             ID = author.ID,
+                             FullName = $"{author.FirstName} {author.LastName}"
+                         }
+                         ).ToList();
+            return query;
         }
 
         // GET: api/Author/5
@@ -65,8 +78,13 @@ namespace Code.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            // ở đây mình k cho delete các cậu có thể làm delete nếu thích
-            return new NotFoundObjectResult(new { messege = "you don't have permission" });
+            var au = _context.Authors.Find(id);
+
+            if (au == null)
+                return NotFound();
+            _context.Authors.Remove(au);
+            _context.SaveChanges();
+            return new OkObjectResult(new { Status = "Xong" });
         }
     }
 }
